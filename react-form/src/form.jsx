@@ -4,7 +4,10 @@ const Form = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneType, setphoneType] = useState("");
   const [bio, setBio] = useState("");
+  const [staff, setStaff] = useState("")
+  const [emailNotification, setEmailNotification] = useState("")
 
   const [errorMessages, setErrorMessages] = useState([]);
 
@@ -28,6 +31,10 @@ const Form = (props) => {
       }
     }
 
+    if (!parseInt(phoneNumber) && phoneNumber.length > 0) {
+      errors.push("Incorrect format")
+    }
+
     return errors;
   };
 
@@ -40,17 +47,26 @@ const Form = (props) => {
         case "email":
           setEmail(e.target.value);
           break;
-        // case "phoneNumber":
-        //   setPhoneNumber(e.target.value);
-        //   break;
+        case "phoneNumber":
+          setPhoneNumber(e.target.value);
+          break;
         case "bio":
           setBio(e.target.value);
           break;
-
+        case "phoneType": 
+          setphoneType(e.target.value);
+          break;
+        case "staff":
+          setStaff(e.target.value);
+          break;
+        case "emailNotification":
+          setEmailNotification(e.target.value);
+          break;
         default:
           break;
       }
     };
+
   };
 
   const handleSubmit = (e) => {
@@ -62,11 +78,16 @@ const Form = (props) => {
       let user = {
         name,
         email,
+        phoneNumber,
+        phoneType,
         bio,
+        staff,
+        emailNotification
       };
       console.log(user);
     }
   };
+
   const showError = () => {
     if (errorMessages.length === 0) {
       return null;
@@ -97,6 +118,21 @@ const Form = (props) => {
           value={email}
           onChange={handleChange("email")}
         />
+        <input
+          type="text"
+          placeholder="XXX-XXX-XXXX(ONLY AMERICAN!!!)"
+          value={phoneNumber}
+          onChange={handleChange("phoneNumber")}
+        />
+        <select name="phoneType" 
+        id="phoneType"
+        onChange={handleChange("phoneType")}
+        required>
+          <option></option>
+          <option value="Home">Home</option>
+          <option value="Work">Work</option>
+          <option value="Mobile">Mobile</option>
+        </select>
         <textarea
           //   type="textarea"
           placeholder="bio"
@@ -104,6 +140,13 @@ const Form = (props) => {
           onChange={handleChange("bio")}
         />
 
+        <input type="radio" name="staff" id="student" value="student" onChange={handleChange("staff")} required/>
+        <label htmlFor="student">Student</label>
+        <input type="radio" name="staff" id="Instructor" value="Instructor" onChange={handleChange("staff")} required/>
+        <label htmlFor="Instructor">Instructor</label>
+
+        <input type="checkbox" onChange ={handleChange("emailNotification")} />
+        Sign up for email notifications?
         <button>submit</button>
       </form>
     </>
